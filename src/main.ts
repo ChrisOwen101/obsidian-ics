@@ -126,7 +126,13 @@ export default class ICSPlugin extends Plugin {
               return acc + `[[${curr}]], `;
             }, "");
 
-            mdArray.push(`## (${e.time}) ${e.summary}`);
+            if (e.summary.contains("recurring")) {
+              const strippedTitle = e.summary.replaceAll(" (recurring)", "");
+              mdArray.push(`## (${e.time}) [[${strippedTitle}]]`);
+            } else {
+              mdArray.push(`## (${e.time}) ${e.summary}`);
+            }
+
             mdArray.push(`###### Attendees: ${attendees}`);
             mdArray.push("- ");
             mdArray.push("");
